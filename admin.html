@@ -1,0 +1,2303 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EduAI | Admin Dashboard</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#1f2937;
+}
+
+.header{
+    background:#111827;
+    color:white;
+    padding:18px 25px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.header h1{
+    font-size:23px;
+}
+
+.admin-label{
+    font-size:13px;
+    opacity:.75;
+    margin-top:4px;
+}
+
+.logout{
+    border:none;
+    background:white;
+    color:#111827;
+    padding:9px 17px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.logout:hover{
+    background:#e5e7eb;
+}
+
+.container{
+    width:95%;
+    max-width:1300px;
+    margin:25px auto;
+}
+
+.welcome{
+    background:white;
+    padding:24px;
+    border-radius:14px;
+    margin-bottom:22px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.welcome h2{
+    color:#111827;
+    margin-bottom:7px;
+}
+
+.welcome p{
+    color:#64748b;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(190px,1fr));
+
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:14px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.card h3{
+    font-size:14px;
+    color:#64748b;
+    margin-bottom:10px;
+}
+
+.value{
+    font-size:28px;
+    font-weight:bold;
+    color:#111827;
+}
+
+.section{
+    background:white;
+    padding:22px;
+    border-radius:14px;
+    margin-bottom:22px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.section h2{
+    color:#111827;
+    margin-bottom:17px;
+}
+
+.actions{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(200px,1fr));
+
+    gap:13px;
+}
+
+.action{
+    padding:17px;
+    border:1px solid #e2e8f0;
+    border-radius:10px;
+    background:#f8fafc;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.action:hover{
+    background:#eff6ff;
+    border-color:#2563eb;
+}
+
+.action-icon{
+    font-size:26px;
+    margin-bottom:8px;
+}
+
+.action h3{
+    font-size:15px;
+    margin-bottom:5px;
+}
+
+.action p{
+    font-size:12px;
+    color:#64748b;
+}
+
+.toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
+}
+
+.search{
+    flex:1;
+    min-width:250px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 15px;
+    border:1px solid #dbe3ef;
+    border-radius:10px;
+    outline:none;
+}
+
+.search input:focus{
+    border-color:#2563eb;
+}
+
+.btn{
+    border:none;
+    padding:11px 15px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.btn-dark{
+    background:#111827;
+    color:white;
+}
+
+.btn-blue{
+    background:#2563eb;
+    color:white;
+}
+
+.btn-red{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.btn-green{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.table-container{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+}
+
+th,
+td{
+    padding:13px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:left;
+}
+
+th{
+    background:#f3f4f6;
+    color:#111827;
+    font-size:13px;
+}
+
+td{
+    font-size:13px;
+}
+
+.good{
+    color:#15803d;
+    font-weight:bold;
+}
+
+.warning{
+    color:#d97706;
+    font-weight:bold;
+}
+
+.danger{
+    color:#dc2626;
+    font-weight:bold;
+}
+
+.ai-box{
+    background:
+        linear-gradient(
+            135deg,
+            #eff6ff,
+            #f5f3ff
+        );
+
+    border:1px solid #dbeafe;
+    padding:20px;
+    border-radius:12px;
+}
+
+.ai-title{
+    font-size:20px;
+    color:#1e3a8a;
+    margin-bottom:10px;
+}
+
+.insights{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(210px,1fr));
+
+    gap:12px;
+    margin-top:15px;
+}
+
+.insight{
+    background:white;
+    padding:15px;
+    border-radius:9px;
+    border:1px solid #e2e8f0;
+}
+
+.insight strong{
+    display:block;
+    margin-bottom:6px;
+}
+
+.insight span{
+    color:#64748b;
+    font-size:13px;
+}
+
+.report-list{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
+
+    gap:12px;
+}
+
+.report{
+    padding:16px;
+    background:#f8fafc;
+    border-radius:9px;
+    border:1px solid #e2e8f0;
+}
+
+.report h3{
+    font-size:15px;
+    margin-bottom:6px;
+}
+
+.report p{
+    font-size:13px;
+    color:#64748b;
+}
+
+.empty{
+    padding:30px;
+    text-align:center;
+    color:#64748b;
+}
+
+.loading{
+    padding:30px;
+    text-align:center;
+    color:#64748b;
+}
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+
+    background:#111827;
+    color:white;
+
+    padding:14px 18px;
+    border-radius:10px;
+
+    opacity:0;
+    transform:translateY(80px);
+
+    transition:.3s;
+
+    z-index:3000;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+
+    background:rgba(15,23,42,.55);
+
+    display:none;
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+
+    z-index:2000;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:700px;
+
+    max-height:90vh;
+    overflow-y:auto;
+
+    background:white;
+    padding:25px;
+    border-radius:18px;
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close{
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:50%;
+    background:#f1f5f9;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.details-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.detail{
+    background:#f8fafc;
+    padding:14px;
+    border-radius:10px;
+}
+
+.detail small{
+    display:block;
+    color:#64748b;
+    margin-bottom:5px;
+}
+
+.detail strong{
+    font-size:16px;
+}
+
+.modal-actions{
+    margin-top:20px;
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+}
+
+@media(max-width:600px){
+
+    .header{
+        padding:15px;
+    }
+
+    .header h1{
+        font-size:18px;
+    }
+
+    .container{
+        width:92%;
+    }
+
+    .section{
+        padding:17px;
+    }
+
+    .details-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div>
+
+        <h1>
+            👨‍💼 Admin Dashboard
+        </h1>
+
+        <div class="admin-label">
+            AI Education Management Portal
+        </div>
+
+    </div>
+
+
+    <button
+        class="logout"
+        onclick="logout()">
+
+        Logout
+
+    </button>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     WELCOME
+===================================================== -->
+
+<section class="welcome">
+
+    <h2>
+        Welcome, Administrator 👋
+    </h2>
+
+    <p>
+        Monitor students and academic performance
+        from one centralized dashboard.
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     SUMMARY
+===================================================== -->
+
+<section class="cards">
+
+    <div class="card">
+
+        <h3>
+            👨‍🎓 Total Students
+        </h3>
+
+        <div
+            class="value"
+            id="studentCount">
+
+            0
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            📚 Total Courses
+        </h3>
+
+        <div
+            class="value"
+            id="courseCount">
+
+            0
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            📝 Assignments
+        </h3>
+
+        <div
+            class="value"
+            id="assignmentCount">
+
+            0
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            🎓 Exams
+        </h3>
+
+        <div
+            class="value"
+            id="examCount">
+
+            0
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            📊 Avg Attendance
+        </h3>
+
+        <div
+            class="value"
+            id="attendanceAverage">
+
+            0%
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            ⚠️ At Risk Students
+        </h3>
+
+        <div
+            class="value"
+            id="riskCount">
+
+            0
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MANAGEMENT
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        ⚙️ Management
+    </h2>
+
+
+    <div class="actions">
+
+
+        <div
+            class="action"
+            onclick="studentManagement()">
+
+            <div class="action-icon">
+                👨‍🎓
+            </div>
+
+            <h3>
+                Student Management
+            </h3>
+
+            <p>
+                View and manage student records.
+            </p>
+
+        </div>
+
+
+        <div
+            class="action"
+            onclick="courseManagement()">
+
+            <div class="action-icon">
+                📚
+            </div>
+
+            <h3>
+                Course Management
+            </h3>
+
+            <p>
+                Open course management.
+            </p>
+
+        </div>
+
+
+        <div
+            class="action"
+            onclick="assignmentManagement()">
+
+            <div class="action-icon">
+                📝
+            </div>
+
+            <h3>
+                Assignment Management
+            </h3>
+
+            <p>
+                Manage assignments and marks.
+            </p>
+
+        </div>
+
+
+        <div
+            class="action"
+            onclick="examManagement()">
+
+            <div class="action-icon">
+                🎓
+            </div>
+
+            <h3>
+                Exam & Marks Management
+            </h3>
+
+            <p>
+                Manage exams and examination marks.
+            </p>
+
+        </div>
+
+
+        <div
+            class="action"
+            onclick="reportManagement()">
+
+            <div class="action-icon">
+                📈
+            </div>
+
+            <h3>
+                Reports
+            </h3>
+
+            <p>
+                View academic reports.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     AI INSIGHTS
+===================================================== -->
+
+<section class="section">
+
+    <div class="ai-box">
+
+        <div class="ai-title">
+            🤖 AI Academic Insights
+        </div>
+
+        <p>
+            The system analyzes attendance and academic
+            performance to identify students who may need support.
+        </p>
+
+
+        <div class="insights">
+
+
+            <div class="insight">
+
+                <strong>
+                    ⚠️ Academic Risk
+                </strong>
+
+                <span id="riskInsight">
+                    Analyzing...
+                </span>
+
+            </div>
+
+
+            <div class="insight">
+
+                <strong>
+                    📉 Weak Performance
+                </strong>
+
+                <span id="weakInsight">
+                    Analyzing...
+                </span>
+
+            </div>
+
+
+            <div class="insight">
+
+                <strong>
+                    📈 Attendance Trend
+                </strong>
+
+                <span id="trendInsight">
+                    Analyzing...
+                </span>
+
+            </div>
+
+
+            <div class="insight">
+
+                <strong>
+                    🎯 Recommendation
+                </strong>
+
+                <span id="recommendationInsight">
+                    Generating...
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     STUDENT MONITORING
+===================================================== -->
+
+<section
+    class="section"
+    id="studentSection">
+
+    <div class="toolbar">
+
+        <h2>
+            📊 Student Academic Monitoring
+        </h2>
+
+        <div class="search">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search student..."
+                oninput="renderStudents()">
+
+        </div>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Student
+                    </th>
+
+                    <th>
+                        ID
+                    </th>
+
+                    <th>
+                        Class
+                    </th>
+
+                    <th>
+                        Attendance
+                    </th>
+
+                    <th>
+                        Overall
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="studentTable">
+
+                <tr>
+
+                    <td colspan="7">
+
+                        <div class="loading">
+                            Loading students...
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     REPORTS
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        📑 Reports & Analytics
+    </h2>
+
+
+    <div class="report-list">
+
+
+        <div class="report">
+
+            <h3>
+                📊 Performance Report
+            </h3>
+
+            <p>
+                Export current student academic performance.
+            </p>
+
+            <button
+                class="btn btn-dark"
+                onclick="downloadCSV()">
+
+                Export CSV
+
+            </button>
+
+        </div>
+
+
+        <div class="report">
+
+            <h3>
+                📅 Attendance Report
+            </h3>
+
+            <p>
+                View students with attendance concerns.
+            </p>
+
+            <button
+                class="btn btn-blue"
+                onclick="showLowAttendance()">
+
+                View
+
+            </button>
+
+        </div>
+
+
+        <div class="report">
+
+            <h3>
+                🤖 AI Risk Report
+            </h3>
+
+            <p>
+                View students identified as higher risk.
+            </p>
+
+            <button
+                class="btn btn-red"
+                onclick="showRiskStudents()">
+
+                View
+
+            </button>
+
+        </div>
+
+
+        <div class="report">
+
+            <h3>
+                📈 Academic Progress
+            </h3>
+
+            <p>
+                View the overall academic summary.
+            </p>
+
+            <button
+                class="btn btn-green"
+                onclick="showAllStudents()">
+
+                View
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+</div>
+
+
+<!-- =====================================================
+     STUDENT DETAILS MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="studentModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <h2>
+                Student Details
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeStudentModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div id="studentDetails">
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="btn btn-dark"
+                onclick="openStudentDashboard()">
+
+                Open Student Details
+
+            </button>
+
+            <button
+                class="btn btn-blue"
+                onclick="closeStudentModal()">
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+    class="toast"
+    id="toast">
+
+</div>
+
+
+<script>
+
+"use strict";
+
+
+/* =====================================================
+   API
+===================================================== */
+
+const API =
+    "http://localhost:5000/api";
+
+let students = [];
+
+let selectedStudentId = "";
+
+let currentView = "all";
+
+
+/* =====================================================
+   ADMIN SECURITY
+===================================================== */
+
+const role =
+    localStorage.getItem(
+        "userRole"
+    );
+
+
+/*
+   Do not block when no role was saved yet,
+   because older login page may not save it.
+*/
+
+if(
+    role &&
+    role.toLowerCase() !== "admin"
+){
+
+    alert(
+        "Admin access required."
+    );
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =====================================================
+   FETCH STUDENTS
+===================================================== */
+
+async function loadStudents(){
+
+    try{
+
+        const response =
+            await fetch(
+                `${API}/students`
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Unable to load students"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        students =
+            Array.isArray(data)
+                ? data
+                : (data.students || []);
+
+
+        loadDashboardData();
+
+        renderStudents();
+
+    }
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        students = [];
+
+
+        document.getElementById(
+            "studentTable"
+        ).innerHTML = `
+
+            <tr>
+
+                <td colspan="7">
+
+                    <div class="empty">
+
+                        Backend connection failed.
+
+                        <br><br>
+
+                        Make sure:
+
+                        <br>
+
+                        node server.js
+
+                        <br>
+
+                        is running.
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   NUMBER
+===================================================== */
+
+function numberValue(value){
+
+    const number =
+        Number.parseFloat(
+            value
+        );
+
+    return Number.isFinite(
+        number
+    )
+        ? number
+        : 0;
+
+}
+
+
+/* =====================================================
+   OVERALL
+===================================================== */
+
+function getOverall(student){
+
+    if(
+        student.overall !== undefined
+    ){
+
+        return numberValue(
+            student.overall
+        );
+
+    }
+
+
+    const assignment =
+        numberValue(
+            student.assignment
+        );
+
+
+    const exam =
+        numberValue(
+            student.exam
+        );
+
+
+    return Math.round(
+        (
+            assignment +
+            exam
+        ) / 2
+    );
+
+}
+
+
+/* =====================================================
+   ATTENDANCE
+===================================================== */
+
+function getAttendance(student){
+
+    return numberValue(
+        student.attendance
+    );
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function getStatus(student){
+
+    const attendance =
+        getAttendance(
+            student
+        );
+
+    const overall =
+        getOverall(
+            student
+        );
+
+
+    if(
+        attendance < 60 ||
+        overall < 40
+    ){
+
+        return {
+            text:"High Risk",
+            className:"danger"
+        };
+
+    }
+
+
+    if(
+        attendance < 75 ||
+        overall < 60
+    ){
+
+        return {
+            text:"Needs Attention",
+            className:"warning"
+        };
+
+    }
+
+
+    return {
+        text:"Good",
+        className:"good"
+    };
+
+}
+
+
+/* =====================================================
+   LOAD DASHBOARD DATA
+===================================================== */
+
+function loadDashboardData(){
+
+    const total =
+        students.length;
+
+
+    let totalAttendance = 0;
+
+    let riskCount = 0;
+
+    let weakCount = 0;
+
+
+    students.forEach(
+        student => {
+
+            const attendance =
+                getAttendance(
+                    student
+                );
+
+
+            const overall =
+                getOverall(
+                    student
+                );
+
+
+            totalAttendance +=
+                attendance;
+
+
+            if(
+                attendance < 75 ||
+                overall < 40
+            ){
+
+                riskCount++;
+
+            }
+
+
+            if(
+                Number(
+                    student.assignment || 0
+                ) < 40
+            ){
+
+                weakCount++;
+
+            }
+
+
+            if(
+                Number(
+                    student.exam || 0
+                ) < 40
+            ){
+
+                weakCount++;
+
+            }
+
+        }
+    );
+
+
+    const avgAttendance =
+        total > 0
+
+        ? Math.round(
+            (
+                totalAttendance /
+                total
+            ) * 100
+        ) / 100
+
+        : 0;
+
+
+    document.getElementById(
+        "studentCount"
+    ).textContent =
+        total;
+
+
+    /*
+       These four APIs are not yet in the current server.js.
+       Keep 0 until those routes are added.
+    */
+
+    document.getElementById(
+        "courseCount"
+    ).textContent =
+        "0";
+
+
+    document.getElementById(
+        "assignmentCount"
+    ).textContent =
+        "0";
+
+
+    document.getElementById(
+        "examCount"
+    ).textContent =
+        "0";
+
+
+    document.getElementById(
+        "attendanceAverage"
+    ).textContent =
+        avgAttendance + "%";
+
+
+    document.getElementById(
+        "riskCount"
+    ).textContent =
+        riskCount;
+
+
+    document.getElementById(
+        "riskInsight"
+    ).textContent =
+
+        riskCount > 0
+
+        ? `${riskCount} student(s) may need academic attention.`
+
+        : "No high-risk students detected.";
+
+
+    document.getElementById(
+        "weakInsight"
+    ).textContent =
+
+        weakCount > 0
+
+        ? `${weakCount} weak academic area(s) detected.`
+
+        : "No major weak areas detected.";
+
+
+    document.getElementById(
+        "trendInsight"
+    ).textContent =
+
+        avgAttendance >= 85
+
+        ? "Overall attendance trend is healthy."
+
+        : "Attendance needs improvement.";
+
+
+    document.getElementById(
+        "recommendationInsight"
+    ).textContent =
+
+        riskCount > 0
+
+        ? "Review attendance and academic marks for at-risk students."
+
+        : "Continue monitoring student progress.";
+
+}
+
+
+/* =====================================================
+   RENDER STUDENTS
+===================================================== */
+
+function renderStudents(){
+
+    const table =
+        document.getElementById(
+            "studentTable"
+        );
+
+
+    const search =
+        document.getElementById(
+            "searchInput"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const filtered =
+        students.filter(
+            student => {
+
+                const name =
+                    String(
+                        student.name || ""
+                    ).toLowerCase();
+
+
+                const id =
+                    String(
+                        student.id || ""
+                    ).toLowerCase();
+
+
+                const className =
+                    String(
+                        student.className || ""
+                    ).toLowerCase();
+
+
+                const matchesSearch =
+                    !search ||
+
+                    name.includes(
+                        search
+                    ) ||
+
+                    id.includes(
+                        search
+                    ) ||
+
+                    className.includes(
+                        search
+                    );
+
+
+                const attendance =
+                    getAttendance(
+                        student
+                    );
+
+
+                const overall =
+                    getOverall(
+                        student
+                    );
+
+
+                if(
+                    currentView === "risk"
+                ){
+
+                    return (
+                        matchesSearch &&
+                        (
+                            attendance < 75 ||
+                            overall < 40
+                        )
+                    );
+
+                }
+
+
+                if(
+                    currentView === "attendance"
+                ){
+
+                    return (
+                        matchesSearch &&
+                        attendance < 75
+                    );
+
+                }
+
+
+                return matchesSearch;
+
+            }
+        );
+
+
+    if(
+        filtered.length === 0
+    ){
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td colspan="7">
+
+                    <div class="empty">
+                        No students found.
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    table.innerHTML =
+        filtered.map(
+            student => {
+
+                const status =
+                    getStatus(
+                        student
+                    );
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            ${escapeHTML(
+                                student.name || "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHTML(
+                                student.id || "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHTML(
+                                student.className || "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${getAttendance(
+                                student
+                            )}%
+                        </td>
+
+                        <td>
+                            ${getOverall(
+                                student
+                            )}%
+                        </td>
+
+                        <td class="${status.className}">
+                            ${status.text}
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="btn btn-blue"
+                                onclick="viewStudent('${escapeJS(
+                                    student.id
+                                )}')">
+
+                                View
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* =====================================================
+   VIEW STUDENT
+===================================================== */
+
+function viewStudent(id){
+
+    const student =
+        students.find(
+            item =>
+                String(
+                    item.id
+                ) ===
+                String(id)
+        );
+
+
+    if(!student){
+
+        return;
+
+    }
+
+
+    selectedStudentId =
+        student.id;
+
+
+    document.getElementById(
+        "studentDetails"
+    ).innerHTML = `
+
+        <div class="details-grid">
+
+            <div class="detail">
+
+                <small>
+                    Name
+                </small>
+
+                <strong>
+                    ${escapeHTML(
+                        student.name || "-"
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <small>
+                    Student ID
+                </small>
+
+                <strong>
+                    ${escapeHTML(
+                        student.id || "-"
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <small>
+                    Class
+                </small>
+
+                <strong>
+                    ${escapeHTML(
+                        student.className || "-"
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <small>
+                    Section
+                </small>
+
+                <strong>
+                    ${escapeHTML(
+                        student.section || "-"
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <small>
+                    Email
+                </small>
+
+                <strong>
+                    ${escapeHTML(
+                        student.email || "-"
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <small>
+                    Phone
+                </small>
+
+                <strong>
+                    ${escapeHTML(
+                        student.phone || "-"
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <small>
+                    Attendance
+                </small>
+
+                <strong>
+                    ${getAttendance(
+                        student
+                    )}%
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <small>
+                    Overall
+                </small>
+
+                <strong>
+                    ${getOverall(
+                        student
+                    )}%
+                </strong>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.getElementById(
+        "studentModal"
+    ).classList.add(
+        "show"
+    );
+
+
+}
+
+
+function closeStudentModal(){
+
+    document.getElementById(
+        "studentModal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+function openStudentDashboard(){
+
+    if(
+        !selectedStudentId
+    ){
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        "selectedStudentId",
+        selectedStudentId
+    );
+
+
+    window.location.href =
+        "student-details.html";
+
+}
+
+
+/* =====================================================
+   MANAGEMENT
+===================================================== */
+
+function studentManagement(){
+
+    currentView =
+        "all";
+
+
+    document.getElementById(
+        "studentSection"
+    ).scrollIntoView({
+        behavior:"smooth"
+    });
+
+
+    renderStudents();
+
+}
+
+
+function courseManagement(){
+
+    /*
+       Courses currently live in
+       Staff Dashboard until course
+       routes are added to server.js.
+    */
+
+    window.location.href =
+        "staff-dashboard.html#courses";
+
+}
+
+
+function assignmentManagement(){
+
+    window.location.href =
+        "staff-dashboard.html#assignments";
+
+}
+
+
+function examManagement(){
+
+    window.location.href =
+        "staff-dashboard.html#exams";
+
+}
+
+
+function reportManagement(){
+
+    document.getElementById(
+        "studentSection"
+    ).scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   FILTER
+===================================================== */
+
+function showLowAttendance(){
+
+    currentView =
+        "attendance";
+
+
+    document.getElementById(
+        "studentSection"
+    ).scrollIntoView({
+        behavior:"smooth"
+    });
+
+
+    renderStudents();
+
+}
+
+
+function showRiskStudents(){
+
+    currentView =
+        "risk";
+
+
+    document.getElementById(
+        "studentSection"
+    ).scrollIntoView({
+        behavior:"smooth"
+    });
+
+
+    renderStudents();
+
+}
+
+
+function showAllStudents(){
+
+    currentView =
+        "all";
+
+
+    document.getElementById(
+        "searchInput"
+    ).value = "";
+
+
+    renderStudents();
+
+}
+
+
+/* =====================================================
+   CSV
+===================================================== */
+
+function downloadCSV(){
+
+    if(
+        students.length === 0
+    ){
+
+        showToast(
+            "No student data available."
+        );
+
+        return;
+
+    }
+
+
+    let csv =
+        "Student ID,Name,Class,Section,Email,Phone,Attendance,Assignment,Exam,Overall,Status\n";
+
+
+    students.forEach(
+        student => {
+
+            csv +=
+
+                `"${csvEscape(
+                    student.id
+                )}",` +
+
+                `"${csvEscape(
+                    student.name
+                )}",` +
+
+                `"${csvEscape(
+                    student.className
+                )}",` +
+
+                `"${csvEscape(
+                    student.section
+                )}",` +
+
+                `"${csvEscape(
+                    student.email
+                )}",` +
+
+                `"${csvEscape(
+                    student.phone
+                )}",` +
+
+                `${getAttendance(
+                    student
+                )},` +
+
+                `${numberValue(
+                    student.assignment
+                )},` +
+
+                `${numberValue(
+                    student.exam
+                )},` +
+
+                `${getOverall(
+                    student
+                )},` +
+
+                `"${csvEscape(
+                    getStatus(student).text
+                )}"\n`;
+
+        }
+    );
+
+
+    const blob =
+        new Blob(
+            [csv],
+            {
+                type:
+                    "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href =
+        url;
+
+    link.download =
+        "EduAI_Admin_Student_Report.csv";
+
+
+    document.body.appendChild(
+        link
+    );
+
+    link.click();
+
+    document.body.removeChild(
+        link
+    );
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+
+    showToast(
+        "Admin report exported."
+    );
+
+}
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        () => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+        2500
+    );
+
+}
+
+
+function escapeHTML(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+function escapeJS(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+    .replace(
+        /'/g,
+        "\\'"
+    );
+
+}
+
+
+function csvEscape(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /"/g,
+        '""'
+    );
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    localStorage.removeItem(
+        "userRole"
+    );
+
+    localStorage.removeItem(
+        "loggedInAdminId"
+    );
+
+    localStorage.removeItem(
+        "selectedStudentId"
+    );
+
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        loadStudents();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
+```

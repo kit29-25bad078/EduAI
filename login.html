@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EduAI | Login</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#eef4ff,#f5efff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.circle{
+    position:fixed;
+    border-radius:50%;
+    z-index:0;
+}
+
+.circle.one{
+    width:300px;
+    height:300px;
+    background:#dbeafe;
+    top:-120px;
+    left:-100px;
+}
+
+.circle.two{
+    width:350px;
+    height:350px;
+    background:#ede9fe;
+    bottom:-150px;
+    right:-120px;
+}
+
+.container{
+    width:900px;
+    min-height:560px;
+    background:white;
+    border-radius:28px;
+    box-shadow:0 25px 70px rgba(30,41,59,.15);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    overflow:hidden;
+    position:relative;
+    z-index:2;
+}
+
+/* LEFT */
+
+.welcome{
+    padding:55px;
+    color:white;
+    background:linear-gradient(145deg,#2563eb,#4f46e5);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.logo{
+    width:60px;
+    height:60px;
+    border-radius:18px;
+    background:rgba(255,255,255,.18);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+    margin-bottom:25px;
+}
+
+.welcome h1{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.welcome h1 span{
+    color:#bfdbfe;
+}
+
+.welcome p{
+    font-size:14px;
+    line-height:1.8;
+    color:#e0e7ff;
+    margin-bottom:30px;
+}
+
+.feature{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:13px 0;
+    font-size:13px;
+}
+
+.feature-icon{
+    width:35px;
+    height:35px;
+    background:rgba(255,255,255,.15);
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* LOGIN */
+
+.login{
+    padding:45px;
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+}
+
+.login h2{
+    color:#172033;
+    font-size:28px;
+    margin-bottom:7px;
+}
+
+.login-subtitle{
+    color:#667085;
+    font-size:13px;
+    margin-bottom:25px;
+}
+
+.label{
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    color:#344054;
+    margin-bottom:7px;
+}
+
+/* ROLES */
+
+.roles{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-bottom:20px;
+}
+
+.role{
+    border:1px solid #d0d5dd;
+    border-radius:11px;
+    padding:12px 5px;
+    text-align:center;
+    cursor:pointer;
+    font-size:11px;
+    color:#475467;
+    transition:.2s;
+}
+
+.role-icon{
+    display:block;
+    font-size:21px;
+    margin-bottom:5px;
+}
+
+.role.active{
+    border:2px solid #2563eb;
+    background:#eff6ff;
+    color:#2563eb;
+    font-weight:bold;
+}
+
+.role:hover{
+    border-color:#2563eb;
+}
+
+/* INPUT */
+
+.input-group{
+    margin-bottom:16px;
+}
+
+.input{
+    width:100%;
+    padding:13px;
+    border:1px solid #d0d5dd;
+    border-radius:10px;
+    outline:none;
+    font-size:13px;
+}
+
+.input:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.08);
+}
+
+.password-area{
+    position:relative;
+}
+
+.password-area .input{
+    padding-right:45px;
+}
+
+.show-password{
+    position:absolute;
+    right:12px;
+    top:12px;
+    border:none;
+    background:none;
+    cursor:pointer;
+    font-size:16px;
+}
+
+/* BUTTON */
+
+.login-button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:11px;
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.login-button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(37,99,235,.25);
+}
+
+.login-button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    transform:none;
+}
+
+.message{
+    min-height:22px;
+    margin-top:12px;
+    text-align:center;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.security{
+    text-align:center;
+    color:#98a2b3;
+    font-size:10px;
+    margin-top:15px;
+}
+
+.demo-box{
+    margin-top:15px;
+    padding:12px;
+    border-radius:10px;
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    color:#475569;
+    font-size:11px;
+    line-height:1.6;
+}
+
+@media(max-width:800px){
+
+    body{
+        overflow:auto;
+        padding:20px;
+    }
+
+    .container{
+        width:100%;
+        grid-template-columns:1fr;
+    }
+
+    .welcome{
+        padding:35px;
+    }
+
+    .login{
+        padding:35px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="circle one"></div>
+<div class="circle two"></div>
+
+
+<div class="container">
+
+
+    <!-- LEFT -->
+
+    <div class="welcome">
+
+        <div class="logo">
+            🎓
+        </div>
+
+        <h1>
+            Welcome to <span>EduAI</span>
+        </h1>
+
+        <p>
+            AI-powered Education Management Portal
+            for students, teachers and administrators.
+        </p>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                📊
+            </div>
+
+            Performance Tracking
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🤖
+            </div>
+
+            AI Academic Analysis
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🎯
+            </div>
+
+            Personalized Recommendations
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                📚
+            </div>
+
+            Academic Management
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT -->
+
+    <div class="login">
+
+        <h2>
+            Sign In
+        </h2>
+
+        <p class="login-subtitle">
+            Choose your account type to continue
+        </p>
+
+
+        <label class="label">
+            Login as
+        </label>
+
+
+        <div class="roles">
+
+
+            <div
+                class="role active"
+                onclick="selectRole(this,'Student')">
+
+                <span class="role-icon">
+                    👨‍🎓
+                </span>
+
+                Student
+
+            </div>
+
+
+            <div
+                class="role"
+                onclick="selectRole(this,'Staff')">
+
+                <span class="role-icon">
+                    👩‍🏫
+                </span>
+
+                Staff
+
+            </div>
+
+
+            <div
+                class="role"
+                onclick="selectRole(this,'Admin')">
+
+                <span class="role-icon">
+                    🏢
+                </span>
+
+                Admin
+
+            </div>
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label class="label">
+                Email / User ID
+            </label>
+
+            <input
+                class="input"
+                id="username"
+                type="text"
+                placeholder="Enter your User ID">
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label class="label">
+                Password
+            </label>
+
+            <div class="password-area">
+
+                <input
+                    class="input"
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password">
+
+                <button
+                    class="show-password"
+                    type="button"
+                    onclick="togglePassword()">
+
+                    👁️
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="login-button"
+            id="loginButton"
+            type="button"
+            onclick="loginUser()">
+
+            Sign In →
+
+        </button>
+
+
+        <div
+            id="message"
+            class="message">
+        </div>
+
+
+        <div class="demo-box">
+
+            <strong>Demo Staff:</strong>
+            staff / staff123
+            <br>
+
+            <strong>Demo Admin:</strong>
+            admin / admin123
+            <br>
+
+            <strong>Student:</strong>
+            Use the Student ID added by Staff
+
+        </div>
+
+
+        <div class="security">
+            🔒 Secure Role-Based Academic Access
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CONFIG
+===================================================== */
+
+const API_URL =
+    "http://localhost:5000/api";
+
+
+let selectedRole =
+    "Student";
+
+
+/* =====================================================
+   SELECT ROLE
+===================================================== */
+
+function selectRole(
+    element,
+    role
+){
+
+    document
+        .querySelectorAll(".role")
+        .forEach(
+            item =>
+                item.classList.remove(
+                    "active"
+                )
+        );
+
+
+    element.classList.add(
+        "active"
+    );
+
+
+    selectedRole =
+        role;
+
+
+    document.getElementById(
+        "username"
+    ).value = "";
+
+
+    document.getElementById(
+        "password"
+    ).value = "";
+
+
+    document.getElementById(
+        "message"
+    ).textContent = "";
+
+
+    const usernameInput =
+        document.getElementById(
+            "username"
+        );
+
+
+    if(
+        role === "Student"
+    ){
+
+        usernameInput.placeholder =
+            "Enter Student ID";
+
+    }
+    else if(
+        role === "Staff"
+    ){
+
+        usernameInput.placeholder =
+            "Enter Staff User ID";
+
+    }
+    else{
+
+        usernameInput.placeholder =
+            "Enter Admin User ID";
+
+    }
+
+}
+
+
+/* =====================================================
+   PASSWORD SHOW / HIDE
+===================================================== */
+
+function togglePassword(){
+
+    const password =
+        document.getElementById(
+            "password"
+        );
+
+
+    if(
+        password.type === "password"
+    ){
+
+        password.type =
+            "text";
+
+    }
+    else{
+
+        password.type =
+            "password";
+
+    }
+
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(
+    text,
+    type
+){
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.textContent =
+        text;
+
+
+    if(
+        type === "error"
+    ){
+
+        message.style.color =
+            "#dc2626";
+
+    }
+    else{
+
+        message.style.color =
+            "#16a34a";
+
+    }
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+async function loginUser(){
+
+    const username =
+        document
+            .getElementById(
+                "username"
+            )
+            .value
+            .trim();
+
+
+    const password =
+        document
+            .getElementById(
+                "password"
+            )
+            .value
+            .trim();
+
+
+    const button =
+        document.getElementById(
+            "loginButton"
+        );
+
+
+    if(!username){
+
+        showMessage(
+            "⚠ Please enter your User ID.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!password){
+
+        showMessage(
+            "⚠ Please enter your password.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    /* ===============================================
+       STUDENT LOGIN
+    =============================================== */
+
+    if(
+        selectedRole === "Student"
+    ){
+
+        button.disabled =
+            true;
+
+        button.textContent =
+            "Checking...";
+
+
+        try{
+
+            const response =
+                await fetch(
+                    `${API_URL}/students/${encodeURIComponent(username)}`
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if(
+                !response.ok
+            ){
+
+                throw new Error(
+                    data.message ||
+                    "Student not found"
+                );
+
+            }
+
+
+            const student =
+                data.student ||
+                data;
+
+
+            /*
+               IMPORTANT:
+               Save Student ID for dashboard
+            */
+
+            localStorage.setItem(
+                "loggedInStudentId",
+                student.id
+            );
+
+
+            localStorage.setItem(
+                "studentId",
+                student.id
+            );
+
+
+            localStorage.setItem(
+                "currentStudent",
+                JSON.stringify(student)
+            );
+
+
+            localStorage.setItem(
+                "selectedStudentId",
+                student.id
+            );
+
+
+            showMessage(
+                "✓ Student login successful.",
+                "success"
+            );
+
+
+            setTimeout(
+                () => {
+
+                    window.location.href =
+                        "student-dashboard.html";
+
+                },
+                500
+            );
+
+
+        }
+        catch(error){
+
+            console.error(
+                "Student login error:",
+                error
+            );
+
+
+            showMessage(
+                "⚠ Student ID not found in database.",
+                "error"
+            );
+
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "Sign In →";
+
+        }
+
+
+        return;
+
+    }
+
+
+    /* ===============================================
+       STAFF LOGIN
+    =============================================== */
+
+    if(
+        selectedRole === "Staff"
+    ){
+
+        if(
+            username === "staff" &&
+            password === "staff123"
+        ){
+
+            localStorage.setItem(
+                "loggedInRole",
+                "Staff"
+            );
+
+
+            localStorage.setItem(
+                "loggedInUser",
+                "staff"
+            );
+
+
+            showMessage(
+                "✓ Staff login successful.",
+                "success"
+            );
+
+
+            setTimeout(
+                () => {
+
+                    window.location.href =
+                        "staff-dashboard.html";
+
+                },
+                500
+            );
+
+
+        }
+        else{
+
+            showMessage(
+                "⚠ Invalid Staff login.",
+                "error"
+            );
+
+        }
+
+
+        return;
+
+    }
+
+
+    /* ===============================================
+       ADMIN LOGIN
+    =============================================== */
+
+    if(
+        selectedRole === "Admin"
+    ){
+
+        if(
+            username === "admin" &&
+            password === "admin123"
+        ){
+
+            localStorage.setItem(
+                "loggedInRole",
+                "Admin"
+            );
+
+
+            localStorage.setItem(
+                "loggedInUser",
+                "admin"
+            );
+
+
+            showMessage(
+                "✓ Admin login successful.",
+                "success"
+            );
+
+
+            setTimeout(
+                () => {
+
+                    /*
+                       Change this filename if your
+                       Admin dashboard has another name.
+                    */
+
+                    window.location.href =
+                        "admin-dashboard.html";
+
+                },
+                500
+            );
+
+
+        }
+        else{
+
+            showMessage(
+                "⚠ Invalid Admin login.",
+                "error"
+            );
+
+        }
+
+
+        return;
+
+    }
+
+}
+
+
+/* =====================================================
+   ENTER KEY
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Enter"
+        ){
+
+            loginUser();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

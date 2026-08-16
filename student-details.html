@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EduAI | Student Performance</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+    color:#172554;
+    min-height:100vh;
+}
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:270px;
+    height:100vh;
+    background:linear-gradient(180deg,#172554,#4338ca);
+    color:white;
+    padding:30px 20px;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:bold;
+    margin-bottom:45px;
+}
+
+.logo span{
+    color:#67e8f9;
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.menu a{
+    text-decoration:none;
+    color:white;
+    padding:15px;
+    border-radius:12px;
+    font-size:16px;
+    transition:.2s;
+}
+
+.menu a:hover{
+    background:rgba(255,255,255,.15);
+}
+
+.main{
+    margin-left:270px;
+    padding:35px;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.title h1{
+    font-size:34px;
+    margin-bottom:8px;
+}
+
+.title p{
+    color:#64748b;
+    font-size:16px;
+}
+
+.back{
+    border:0;
+    background:#2563eb;
+    color:white;
+    padding:13px 20px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.back:hover{
+    background:#1d4ed8;
+}
+
+.profile{
+    background:white;
+    border-radius:22px;
+    padding:28px;
+    box-shadow:0 10px 30px rgba(15,23,42,.08);
+    margin-bottom:25px;
+}
+
+.profile-header{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.avatar{
+    width:80px;
+    height:80px;
+    border-radius:20px;
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:34px;
+    font-weight:bold;
+}
+
+.profile h2{
+    font-size:28px;
+    margin-bottom:6px;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 12px;
+    background:#dbeafe;
+    color:#1d4ed8;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-top:25px;
+}
+
+.info{
+    background:#f8fafc;
+    padding:18px;
+    border-radius:15px;
+}
+
+.info small{
+    color:#64748b;
+    display:block;
+    margin-bottom:6px;
+}
+
+.info strong{
+    font-size:18px;
+    word-break:break-word;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:24px;
+    box-shadow:0 8px 25px rgba(15,23,42,.07);
+}
+
+.card h3{
+    margin-bottom:20px;
+    font-size:19px;
+}
+
+.progress{
+    height:10px;
+    background:#e2e8f0;
+    border-radius:20px;
+    overflow:hidden;
+    margin:10px 0;
+}
+
+.progress-bar{
+    height:100%;
+    border-radius:20px;
+    background:linear-gradient(90deg,#2563eb,#4f46e5);
+}
+
+.score{
+    font-size:30px;
+    font-weight:bold;
+}
+
+.good{
+    color:#16a34a;
+}
+
+.warning{
+    color:#ea580c;
+}
+
+.danger{
+    color:#dc2626;
+}
+
+.analysis{
+    margin-top:25px;
+    background:linear-gradient(135deg,#eef2ff,#eff6ff);
+    border:1px solid #c7d2fe;
+    border-radius:20px;
+    padding:25px;
+}
+
+.analysis h3{
+    margin-bottom:12px;
+}
+
+.analysis p{
+    line-height:1.7;
+    color:#475569;
+}
+
+.analysis-list{
+    margin-top:15px;
+    padding-left:20px;
+    color:#475569;
+}
+
+.analysis-list li{
+    margin-bottom:8px;
+}
+
+.empty{
+    background:white;
+    padding:70px 30px;
+    text-align:center;
+    border-radius:20px;
+}
+
+.empty h2{
+    margin-bottom:12px;
+}
+
+.empty p{
+    color:#64748b;
+    margin-bottom:20px;
+}
+
+.error-box{
+    background:#fef2f2;
+    border:1px solid #fecaca;
+    color:#991b1b;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+
+.loading{
+    background:white;
+    padding:70px 30px;
+    text-align:center;
+    border-radius:20px;
+    color:#64748b;
+}
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:210px;
+    }
+
+    .main{
+        margin-left:210px;
+    }
+
+    .info-grid,
+    .cards{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:650px){
+
+    .sidebar{
+        position:relative;
+        width:100%;
+        height:auto;
+    }
+
+    .main{
+        margin-left:0;
+        padding:20px;
+    }
+
+    .top{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+    .info-grid,
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="sidebar">
+
+    <div class="logo">
+        Edu<span>AI</span>
+    </div>
+
+    <div class="menu">
+
+        <a href="staff-dashboard.html">
+            📊 Dashboard
+        </a>
+
+        <a href="staff-dashboard.html#students">
+            👨‍🎓 All Students
+        </a>
+
+        <a href="staff-dashboard.html">
+            📉 Low Marks
+        </a>
+
+        <a href="staff-dashboard.html">
+            🚨 Low Attendance
+        </a>
+
+        <a href="staff-dashboard.html">
+            📚 Courses
+        </a>
+
+        <a href="staff-dashboard.html">
+            📝 Assignments
+        </a>
+
+        <a href="staff-dashboard.html">
+            🎓 Exams & Marks
+        </a>
+
+        <a href="staff-dashboard.html">
+            📈 Reports
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="main">
+
+
+    <div class="top">
+
+        <div class="title">
+
+            <h1>
+                Student Performance
+            </h1>
+
+            <p>
+                Complete academic performance analysis
+            </p>
+
+        </div>
+
+
+        <button
+            class="back"
+            onclick="goBack()">
+
+            ← Back to Students
+
+        </button>
+
+    </div>
+
+
+    <div id="errorBox"></div>
+
+
+    <div id="content">
+
+        <div class="loading">
+
+            Loading student details...
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+"use strict";
+
+
+/* =====================================================
+   BACKEND API
+===================================================== */
+
+const API_BASE =
+    "http://localhost:5000/api";
+
+
+/* =====================================================
+   GET SELECTED STUDENT ID
+===================================================== */
+
+function getSelectedStudentId(){
+
+    const id =
+        localStorage.getItem(
+            "selectedStudentId"
+        );
+
+
+    if(
+        id &&
+        id.trim() !== ""
+    ){
+
+        return id.trim();
+
+    }
+
+
+    return "";
+
+}
+
+
+/* =====================================================
+   LOAD STUDENT
+===================================================== */
+
+async function loadStudent(){
+
+    const studentId =
+        getSelectedStudentId();
+
+
+    if(!studentId){
+
+        showNotFound(
+            "No student selected. Please go back to All Students and select a student."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/students/${encodeURIComponent(studentId)}`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Student not found"
+            );
+
+        }
+
+
+        const student =
+            data.student ||
+            data;
+
+
+        renderStudent(
+            student
+        );
+
+
+        loadAIAnalysis(
+            student.id
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Student load error:",
+            error
+        );
+
+
+        showNotFound(
+            "Unable to load student details from the backend."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER STUDENT
+===================================================== */
+
+function renderStudent(student){
+
+    const content =
+        document.getElementById(
+            "content"
+        );
+
+
+    const name =
+        student.name || "Student";
+
+
+    const id =
+        student.id || "-";
+
+
+    const className =
+        student.className || "-";
+
+
+    const section =
+        student.section || "-";
+
+
+    const email =
+        student.email || "Not added";
+
+
+    const phone =
+        student.phone || "Not added";
+
+
+    const attendance =
+        Number(
+            student.attendance || 0
+        );
+
+
+    const assignment =
+        Number(
+            student.assignment || 0
+        );
+
+
+    const exam =
+        Number(
+            student.exam || 0
+        );
+
+
+    const overall =
+        Math.round(
+            (
+                assignment +
+                exam
+            ) / 2
+        );
+
+
+    let performanceClass =
+        "good";
+
+
+    if(
+        overall < 40
+    ){
+
+        performanceClass =
+            "danger";
+
+    }
+    else if(
+        overall < 60
+    ){
+
+        performanceClass =
+            "warning";
+
+    }
+
+
+    let analysis = "";
+
+
+    if(
+        overall < 40
+    ){
+
+        analysis =
+            "This student needs additional academic support. " +
+            "Staff should monitor assignment and examination performance.";
+
+    }
+    else if(
+        overall < 60
+    ){
+
+        analysis =
+            "This student has moderate academic performance. " +
+            "Regular practice and additional guidance can improve results.";
+
+    }
+    else{
+
+        analysis =
+            "The student is performing well academically. " +
+            "Continue regular learning activities and maintain consistency.";
+
+    }
+
+
+    content.innerHTML = `
+
+        <div class="profile">
+
+            <div class="profile-header">
+
+                <div class="avatar">
+
+                    ${escapeHTML(
+                        name
+                            .charAt(0)
+                            .toUpperCase()
+                    )}
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        ${escapeHTML(name)}
+                    </h2>
+
+                    <span class="badge">
+                        ${escapeHTML(className)}
+                        ${section !== "-"
+                            ? " - " + escapeHTML(section)
+                            : ""}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-grid">
+
+
+                <div class="info">
+
+                    <small>
+                        Student ID
+                    </small>
+
+                    <strong>
+                        ${escapeHTML(id)}
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        Email
+                    </small>
+
+                    <strong>
+                        ${escapeHTML(email)}
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        Phone
+                    </small>
+
+                    <strong>
+                        ${escapeHTML(phone)}
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        Attendance
+                    </small>
+
+                    <strong>
+                        ${attendance}%
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        Assignment
+                    </small>
+
+                    <strong>
+                        ${assignment}%
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        Examination
+                    </small>
+
+                    <strong>
+                        ${exam}%
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        Overall
+                    </small>
+
+                    <strong class="${performanceClass}">
+                        ${overall}%
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        Status
+                    </small>
+
+                    <strong class="${performanceClass}">
+                        ${getStatus(overall)}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <h3>
+                    📅 Attendance
+                </h3>
+
+                <div class="score">
+
+                    ${attendance}%
+
+                </div>
+
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        style="width:${attendance}%">
+                    </div>
+
+                </div>
+
+
+                <p>
+                    Attendance performance
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    📝 Assignment
+                </h3>
+
+                <div class="score">
+
+                    ${assignment}%
+
+                </div>
+
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        style="width:${assignment}%">
+                    </div>
+
+                </div>
+
+
+                <p>
+                    Assignment performance
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    🎓 Examination
+                </h3>
+
+                <div class="score">
+
+                    ${exam}%
+
+                </div>
+
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        style="width:${exam}%">
+                    </div>
+
+                </div>
+
+
+                <p>
+                    Examination performance
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="analysis">
+
+            <h3>
+                🤖 Academic Analysis
+            </h3>
+
+            <p>
+                ${escapeHTML(analysis)}
+            </p>
+
+
+            <ul class="analysis-list">
+
+                <li>
+                    Attendance: ${attendance}%
+                </li>
+
+                <li>
+                    Assignment: ${assignment}%
+                </li>
+
+                <li>
+                    Examination: ${exam}%
+                </li>
+
+                <li>
+                    Overall performance: ${overall}%
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div
+            class="analysis"
+            id="aiAnalysisBox">
+
+            <h3>
+                🧠 AI Academic Insight
+            </h3>
+
+            <p>
+                Loading AI academic analysis...
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function getStatus(overall){
+
+    if(
+        overall < 40
+    ){
+
+        return "Needs Support";
+
+    }
+
+
+    if(
+        overall < 60
+    ){
+
+        return "Needs Improvement";
+
+    }
+
+
+    return "Good";
+
+}
+
+
+/* =====================================================
+   AI ANALYSIS
+===================================================== */
+
+async function loadAIAnalysis(studentId){
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/students/${encodeURIComponent(studentId)}/ai-analysis`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "AI analysis unavailable"
+            );
+
+        }
+
+
+        const box =
+            document.getElementById(
+                "aiAnalysisBox"
+            );
+
+
+        if(!box){
+
+            return;
+
+        }
+
+
+        const weakAreas =
+            Array.isArray(
+                data.weakAreas
+            )
+                ? data.weakAreas
+                : [];
+
+
+        const recommendations =
+            Array.isArray(
+                data.recommendations
+            )
+                ? data.recommendations
+                : [];
+
+
+        box.innerHTML = `
+
+            <h3>
+                🧠 AI Academic Insight
+            </h3>
+
+
+            <p>
+
+                Risk Level:
+                <strong>
+                    ${escapeHTML(
+                        data.riskLevel ||
+                        "Low"
+                    )}
+                </strong>
+
+            </p>
+
+
+            ${
+                weakAreas.length > 0
+
+                ?
+
+                `
+                <p style="margin-top:12px;">
+
+                    Weak Areas:
+                    <strong>
+                        ${escapeHTML(
+                            weakAreas.join(", ")
+                        )}
+                    </strong>
+
+                </p>
+                `
+
+                :
+
+                `
+                <p style="margin-top:12px;">
+
+                    No major weak areas detected.
+
+                </p>
+                `
+            }
+
+
+            ${
+                recommendations.length > 0
+
+                ?
+
+                `
+                <ul class="analysis-list">
+
+                    ${
+                        recommendations
+                            .map(
+                                recommendation =>
+                                    `<li>
+                                        ${escapeHTML(
+                                            recommendation
+                                        )}
+                                    </li>`
+                            )
+                            .join("")
+                    }
+
+                </ul>
+                `
+
+                :
+
+                ""
+            }
+
+        `;
+
+
+    }catch(error){
+
+        console.error(
+            "AI analysis error:",
+            error
+        );
+
+        const box =
+            document.getElementById(
+                "aiAnalysisBox"
+            );
+
+
+        if(box){
+
+            box.innerHTML = `
+
+                <h3>
+                    🧠 Academic Insight
+                </h3>
+
+                <p>
+                    Academic insight is currently unavailable.
+                </p>
+
+            `;
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   NOT FOUND
+===================================================== */
+
+function showNotFound(message){
+
+    const content =
+        document.getElementById(
+            "content"
+        );
+
+
+    content.innerHTML = `
+
+        <div class="empty">
+
+            <h2>
+                ⚠️ Student Not Found
+            </h2>
+
+            <p>
+                ${escapeHTML(message)}
+            </p>
+
+
+            <button
+                class="back"
+                onclick="goBack()">
+
+                Go to All Students
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+function goBack(){
+
+    window.location.href =
+        "staff-dashboard.html";
+
+}
+
+
+/* =====================================================
+   HTML ESCAPE
+===================================================== */
+
+function escapeHTML(value){
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        String(
+            value ?? ""
+        );
+
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadStudent
+);
+
+</script>
+
+</body>
+</html>

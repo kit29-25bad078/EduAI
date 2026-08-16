@@ -1,0 +1,2135 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EduAI | Student Dashboard</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#1f2937;
+}
+
+.header{
+    background:#1e3a8a;
+    color:white;
+    padding:18px 25px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.header h1{
+    font-size:23px;
+}
+
+.logout{
+    border:none;
+    background:white;
+    color:#1e3a8a;
+    padding:9px 16px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.logout:hover{
+    background:#dbeafe;
+}
+
+.container{
+    width:95%;
+    max-width:1200px;
+    margin:25px auto;
+}
+
+.error-box{
+    background:#fef2f2;
+    border:1px solid #fecaca;
+    color:#991b1b;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.welcome{
+    background:white;
+    padding:22px;
+    border-radius:12px;
+    margin-bottom:20px;
+
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.welcome h2{
+    color:#1e3a8a;
+    margin-bottom:8px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(210px,1fr));
+
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.card h3{
+    font-size:15px;
+    color:#64748b;
+    margin-bottom:10px;
+}
+
+.value{
+    font-size:28px;
+    font-weight:bold;
+    color:#1e3a8a;
+}
+
+.section{
+    background:white;
+    padding:22px;
+    border-radius:12px;
+    margin-bottom:22px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.section h2{
+    color:#1e3a8a;
+    margin-bottom:15px;
+}
+
+.student-info{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
+
+    gap:12px;
+}
+
+.info-box{
+    background:#f8fafc;
+    padding:13px;
+    border-radius:8px;
+    border:1px solid #e2e8f0;
+}
+
+.info-box strong{
+    display:block;
+    color:#64748b;
+    font-size:13px;
+    margin-bottom:5px;
+}
+
+.table-container{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
+}
+
+th,
+td{
+    padding:13px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:left;
+}
+
+th{
+    background:#eff6ff;
+    color:#1e3a8a;
+}
+
+.low{
+    color:#dc2626;
+    font-weight:bold;
+}
+
+.good{
+    color:#15803d;
+    font-weight:bold;
+}
+
+.average{
+    color:#d97706;
+    font-weight:bold;
+}
+
+.alert{
+    padding:14px;
+    margin:10px 0;
+    border-radius:8px;
+    background:#fff7ed;
+    border-left:5px solid #f97316;
+}
+
+.danger{
+    background:#fef2f2;
+    border-left-color:#dc2626;
+}
+
+.success{
+    background:#f0fdf4;
+    border-left-color:#16a34a;
+}
+
+.info{
+    background:#eff6ff;
+    border-left-color:#2563eb;
+}
+
+.low-subject{
+    padding:14px;
+    margin:8px 0;
+    border-radius:8px;
+    background:#fef2f2;
+    border-left:5px solid #dc2626;
+}
+
+.empty{
+    padding:20px;
+    text-align:center;
+    color:#64748b;
+}
+
+.loading{
+    padding:40px;
+    text-align:center;
+    color:#64748b;
+}
+
+.course-card{
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    padding:16px;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+.course-card h3{
+    color:#1e3a8a;
+    margin-bottom:6px;
+}
+
+.course-card p{
+    color:#64748b;
+    font-size:13px;
+    margin-top:4px;
+}
+
+.status-pill{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.status-good{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.status-warning{
+    background:#ffedd5;
+    color:#c2410c;
+}
+
+.status-danger{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+@media(max-width:600px){
+
+    .header{
+        padding:15px;
+    }
+
+    .header h1{
+        font-size:18px;
+    }
+
+    .container{
+        width:92%;
+    }
+
+    .section{
+        padding:16px;
+    }
+
+    th,
+    td{
+        padding:9px;
+        font-size:13px;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>
+        🎓 Student Portal
+    </h1>
+
+    <button
+        class="logout"
+        onclick="logout()">
+
+        Logout
+
+    </button>
+
+</div>
+
+
+<div class="container">
+
+
+<div id="errorBox"></div>
+
+
+<div class="welcome">
+
+    <h2 id="welcomeName">
+        Welcome Student
+    </h2>
+
+    <p id="welcomeClass">
+        Loading your details...
+    </p>
+
+</div>
+
+
+<!-- SUMMARY -->
+
+<div class="cards">
+
+
+    <div class="card">
+
+        <h3>
+            Attendance
+        </h3>
+
+        <div
+            class="value"
+            id="attendanceValue">
+
+            0%
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Average Mark
+        </h3>
+
+        <div
+            class="value"
+            id="averageValue">
+
+            0%
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Low Areas
+        </h3>
+
+        <div
+            class="value"
+            id="lowSubjectValue">
+
+            0
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Alerts
+        </h3>
+
+        <div
+            class="value"
+            id="alertValue">
+
+            0
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MY DETAILS -->
+
+<div class="section">
+
+    <h2>
+        👤 My Details
+    </h2>
+
+
+    <div class="student-info">
+
+
+        <div class="info-box">
+
+            <strong>
+                Name
+            </strong>
+
+            <span id="studentName">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="info-box">
+
+            <strong>
+                Student ID
+            </strong>
+
+            <span id="studentId">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="info-box">
+
+            <strong>
+                Class
+            </strong>
+
+            <span id="studentClass">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="info-box">
+
+            <strong>
+                Section
+            </strong>
+
+            <span id="studentSection">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="info-box">
+
+            <strong>
+                Email
+            </strong>
+
+            <span id="studentEmail">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="info-box">
+
+            <strong>
+                Phone
+            </strong>
+
+            <span id="studentPhone">
+                -
+            </span>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- ATTENDANCE -->
+
+<div class="section">
+
+    <h2>
+        📊 Attendance
+    </h2>
+
+    <div id="attendanceAlert"></div>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Attendance %
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td id="attendanceTableValue">
+                        0%
+                    </td>
+
+                    <td id="attendanceStatus">
+                        -
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- COURSES -->
+
+<div class="section">
+
+    <h2>
+        📚 My Courses
+    </h2>
+
+    <div id="coursesList">
+
+        <div class="loading">
+            Loading courses...
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ASSIGNMENTS -->
+
+<div class="section">
+
+    <h2>
+        📝 My Assignments
+    </h2>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Assignment
+                    </th>
+
+                    <th>
+                        Course
+                    </th>
+
+                    <th>
+                        Due Date
+                    </th>
+
+                    <th>
+                        Mark
+                    </th>
+
+                    <th>
+                        Percentage
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="assignmentTable">
+
+                <tr>
+
+                    <td colspan="6">
+
+                        <div class="loading">
+                            Loading assignments...
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- EXAMS -->
+
+<div class="section">
+
+    <h2>
+        🎓 My Exams & Marks
+    </h2>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Exam
+                    </th>
+
+                    <th>
+                        Course
+                    </th>
+
+                    <th>
+                        Exam Date
+                    </th>
+
+                    <th>
+                        Mark
+                    </th>
+
+                    <th>
+                        Percentage
+                    </th>
+
+                    <th>
+                        Result
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="examTable">
+
+                <tr>
+
+                    <td colspan="6">
+
+                        <div class="loading">
+                            Loading exams...
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- PERFORMANCE -->
+
+<div class="section">
+
+    <h2>
+        📈 Academic Performance
+    </h2>
+
+
+    <div id="performanceAlert"></div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Component
+                    </th>
+
+                    <th>
+                        Score
+                    </th>
+
+                    <th>
+                        Percentage
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="performanceTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- WEAK AREAS -->
+
+<div class="section">
+
+    <h2>
+        ⚠️ Academic Weak Areas
+    </h2>
+
+    <div id="lowSubjects"></div>
+
+</div>
+
+
+<!-- ALERTS -->
+
+<div class="section">
+
+    <h2>
+        🔔 Student Alerts
+    </h2>
+
+    <div id="alertsList"></div>
+
+</div>
+
+
+<!-- AI -->
+
+<div class="section">
+
+    <h2>
+        🤖 AI Academic Insight
+    </h2>
+
+    <div id="aiInsight">
+
+        <div class="loading">
+            Loading AI analysis...
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+"use strict";
+
+
+/* =====================================================
+   API
+===================================================== */
+
+const API_BASE =
+    "http://localhost:5000/api";
+
+
+/* =====================================================
+   GET LOGIN STUDENT ID
+===================================================== */
+
+function getStudentId(){
+
+    const keys = [
+
+        "loggedInStudentId",
+        "studentId",
+        "currentStudentId",
+        "selectedStudentId"
+
+    ];
+
+
+    for(
+        let i = 0;
+        i < keys.length;
+        i++
+    ){
+
+        const value =
+            localStorage.getItem(
+                keys[i]
+            );
+
+
+        if(
+            value &&
+            value.trim() !== ""
+        ){
+
+            return value.trim();
+
+        }
+
+    }
+
+
+    return "";
+
+}
+
+
+/* =====================================================
+   LOAD ALL STUDENT DATA
+===================================================== */
+
+async function loadStudent(){
+
+    const studentId =
+        getStudentId();
+
+
+    if(!studentId){
+
+        showError(
+            "Student ID not found. Please login again."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/students/${encodeURIComponent(studentId)}/academic-data`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Unable to load student"
+            );
+
+        }
+
+
+        renderStudent(
+            data.student
+        );
+
+
+        renderCourses(
+            data.courses || []
+        );
+
+
+        renderAssignments(
+            data.assignments || []
+        );
+
+
+        renderExams(
+            data.exams || []
+        );
+
+
+        renderPerformance(
+            data.student
+        );
+
+
+        loadAIAnalysis(
+            studentId
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "LOAD ERROR:",
+            error
+        );
+
+
+        showError(
+            "Unable to load student data. Make sure the backend is running."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER STUDENT
+===================================================== */
+
+function renderStudent(student){
+
+    const name =
+        student.name || "Student";
+
+    const id =
+        student.id || "-";
+
+    const className =
+        student.className || "-";
+
+    const section =
+        student.section || "-";
+
+    const email =
+        student.email || "-";
+
+    const phone =
+        student.phone || "-";
+
+    const attendance =
+        Number(
+            student.attendance || 0
+        );
+
+    const overall =
+        Number(
+            student.overall || 0
+        );
+
+
+    document.getElementById(
+        "welcomeName"
+    ).textContent =
+        `Welcome, ${name}`;
+
+
+    document.getElementById(
+        "welcomeClass"
+    ).textContent =
+        `Class: ${className} | Section: ${section}`;
+
+
+    document.getElementById(
+        "studentName"
+    ).textContent =
+        name;
+
+
+    document.getElementById(
+        "studentId"
+    ).textContent =
+        id;
+
+
+    document.getElementById(
+        "studentClass"
+    ).textContent =
+        className;
+
+
+    document.getElementById(
+        "studentSection"
+    ).textContent =
+        section;
+
+
+    document.getElementById(
+        "studentEmail"
+    ).textContent =
+        email;
+
+
+    document.getElementById(
+        "studentPhone"
+    ).textContent =
+        phone;
+
+
+    document.getElementById(
+        "attendanceValue"
+    ).textContent =
+        `${attendance}%`;
+
+
+    document.getElementById(
+        "attendanceTableValue"
+    ).textContent =
+        `${attendance}%`;
+
+
+    document.getElementById(
+        "averageValue"
+    ).textContent =
+        `${overall}%`;
+
+
+    renderAttendance(
+        attendance
+    );
+
+}
+
+
+/* =====================================================
+   ATTENDANCE
+===================================================== */
+
+function renderAttendance(
+    attendance
+){
+
+    const status =
+        document.getElementById(
+            "attendanceStatus"
+        );
+
+
+    const alert =
+        document.getElementById(
+            "attendanceAlert"
+        );
+
+
+    if(
+        attendance < 75
+    ){
+
+        status.textContent =
+            "Low Attendance";
+
+        status.className =
+            "low";
+
+
+        alert.innerHTML = `
+
+            <div class="alert danger">
+
+                <strong>
+                    Attendance Alert:
+                </strong>
+
+                Attendance is below 75%.
+
+            </div>
+
+        `;
+
+    }
+    else if(
+        attendance < 90
+    ){
+
+        status.textContent =
+            "Needs Improvement";
+
+        status.className =
+            "average";
+
+
+        alert.innerHTML = `
+
+            <div class="alert">
+
+                <strong>
+                    Attendance Warning:
+                </strong>
+
+                Attendance is below 90%.
+
+            </div>
+
+        `;
+
+    }
+    else{
+
+        status.textContent =
+            "Good";
+
+        status.className =
+            "good";
+
+
+        alert.innerHTML = `
+
+            <div class="alert success">
+
+                <strong>
+                    Good:
+                </strong>
+
+                Attendance is in a safe range.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   COURSES
+===================================================== */
+
+function renderCourses(
+    courses
+){
+
+    const box =
+        document.getElementById(
+            "coursesList"
+        );
+
+
+    if(
+        courses.length === 0
+    ){
+
+        box.innerHTML = `
+
+            <div class="empty">
+
+                No courses assigned yet.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        courses.map(
+            course => `
+
+                <div class="course-card">
+
+                    <h3>
+                        ${escapeHTML(
+                            course.courseName || "-"
+                        )}
+                    </h3>
+
+                    <p>
+                        <strong>
+                            Code:
+                        </strong>
+
+                        ${escapeHTML(
+                            course.courseCode || "-"
+                        )}
+                    </p>
+
+                    <p>
+                        <strong>
+                            Faculty:
+                        </strong>
+
+                        ${escapeHTML(
+                            course.faculty || "-"
+                        )}
+                    </p>
+
+                    <p>
+                        <strong>
+                            Semester:
+                        </strong>
+
+                        ${escapeHTML(
+                            course.semester || "-"
+                        )}
+                    </p>
+
+                </div>
+
+            `
+        )
+        .join("");
+
+}
+
+
+/* =====================================================
+   ASSIGNMENTS
+===================================================== */
+
+function renderAssignments(
+    assignments
+){
+
+    const table =
+        document.getElementById(
+            "assignmentTable"
+        );
+
+
+    if(
+        assignments.length === 0
+    ){
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td colspan="6">
+
+                    <div class="empty">
+                        No assignments available.
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    table.innerHTML =
+        assignments.map(
+            item => {
+
+                const percentage =
+                    Number(
+                        item.maxMark || 0
+                    ) > 0
+
+                    ? Math.round(
+                        (
+                            Number(
+                                item.mark || 0
+                            ) /
+                            Number(
+                                item.maxMark
+                            )
+                        ) * 100
+                    )
+
+                    : 0;
+
+
+                const status =
+                    assignmentStatus(
+                        percentage
+                    );
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            ${escapeHTML(
+                                item.title || "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHTML(
+                                item.courseName || "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHTML(
+                                item.dueDate || "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${Number(
+                                item.mark || 0
+                            )} /
+                            ${Number(
+                                item.maxMark || 0
+                            )}
+                        </td>
+
+                        <td>
+                            ${percentage}%
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="status-pill
+                                ${status.className}">
+
+                                ${status.text}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =====================================================
+   EXAMS
+===================================================== */
+
+function renderExams(
+    exams
+){
+
+    const table =
+        document.getElementById(
+            "examTable"
+        );
+
+
+    if(
+        exams.length === 0
+    ){
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td colspan="6">
+
+                    <div class="empty">
+                        No exams available.
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    table.innerHTML =
+        exams.map(
+            item => {
+
+                const percentage =
+                    Number(
+                        item.maxMark || 0
+                    ) > 0
+
+                    ? Math.round(
+                        (
+                            Number(
+                                item.mark || 0
+                            ) /
+                            Number(
+                                item.maxMark
+                            )
+                        ) * 100
+                    )
+
+                    : 0;
+
+
+                let result =
+                    item.result || "Pending";
+
+
+                let className =
+                    "status-good";
+
+
+                if(
+                    result === "Fail"
+                ){
+
+                    className =
+                        "status-danger";
+
+                }
+                else if(
+                    result === "Pending"
+                ){
+
+                    className =
+                        "status-warning";
+
+                }
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            ${escapeHTML(
+                                item.examName || "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHTML(
+                                item.courseName || "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHTML(
+                                item.examDate || "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${Number(
+                                item.mark || 0
+                            )} /
+                            ${Number(
+                                item.maxMark || 0
+                            )}
+                        </td>
+
+                        <td>
+                            ${percentage}%
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="status-pill
+                                ${className}">
+
+                                ${escapeHTML(
+                                    result
+                                )}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =====================================================
+   PERFORMANCE
+===================================================== */
+
+function renderPerformance(
+    student
+){
+
+    const assignment =
+        Number(
+            student.assignment || 0
+        );
+
+    const exam =
+        Number(
+            student.exam || 0
+        );
+
+    const overall =
+        Number(
+            student.overall || 0
+        );
+
+
+    const table =
+        document.getElementById(
+            "performanceTable"
+        );
+
+
+    table.innerHTML = "";
+
+
+    addPerformanceRow(
+        table,
+        "Assignment",
+        assignment
+    );
+
+
+    addPerformanceRow(
+        table,
+        "Examination",
+        exam
+    );
+
+
+    addPerformanceRow(
+        table,
+        "Overall",
+        overall
+    );
+
+
+    const weakAreas = [];
+
+
+    if(
+        assignment < 40
+    ){
+
+        weakAreas.push(
+            {
+                name:"Assignment",
+                score:assignment
+            }
+        );
+
+    }
+
+
+    if(
+        exam < 40
+    ){
+
+        weakAreas.push(
+            {
+                name:"Examination",
+                score:exam
+            }
+        );
+
+    }
+
+
+    document.getElementById(
+        "lowSubjectValue"
+    ).textContent =
+        weakAreas.length;
+
+
+    const weakBox =
+        document.getElementById(
+            "lowSubjects"
+        );
+
+
+    if(
+        weakAreas.length === 0
+    ){
+
+        weakBox.innerHTML = `
+
+            <div class="alert success">
+
+                <strong>
+                    Good!
+                </strong>
+
+                No major weak academic areas.
+
+            </div>
+
+        `;
+
+    }
+    else{
+
+        weakBox.innerHTML =
+            weakAreas.map(
+                item => `
+
+                    <div class="low-subject">
+
+                        <strong>
+                            ${item.name}
+                        </strong>
+
+                        - ${item.score}%
+
+                    </div>
+
+                `
+            ).join("");
+
+    }
+
+
+    const alertBox =
+        document.getElementById(
+            "performanceAlert"
+        );
+
+
+    if(
+        overall < 60
+    ){
+
+        alertBox.innerHTML = `
+
+            <div class="alert danger">
+
+                <strong>
+                    Performance Alert:
+                </strong>
+
+                Overall academic performance needs improvement.
+
+            </div>
+
+        `;
+
+    }
+    else{
+
+        alertBox.innerHTML = `
+
+            <div class="alert success">
+
+                <strong>
+                    Good:
+                </strong>
+
+                Academic performance is satisfactory.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   PERFORMANCE ROW
+===================================================== */
+
+function addPerformanceRow(
+    table,
+    name,
+    score
+){
+
+    let status =
+        "Good";
+
+    let className =
+        "good";
+
+
+    if(
+        score < 40
+    ){
+
+        status =
+            "Low";
+
+        className =
+            "low";
+
+    }
+    else if(
+        score < 60
+    ){
+
+        status =
+            "Needs Improvement";
+
+        className =
+            "average";
+
+    }
+
+
+    const row =
+        document.createElement(
+            "tr"
+        );
+
+
+    row.innerHTML = `
+
+        <td>
+            ${escapeHTML(name)}
+        </td>
+
+        <td>
+            ${score}
+        </td>
+
+        <td>
+            ${score}%
+        </td>
+
+        <td class="${className}">
+            ${status}
+        </td>
+
+    `;
+
+
+    table.appendChild(
+        row
+    );
+
+}
+
+
+/* =====================================================
+   AI ANALYSIS
+===================================================== */
+
+async function loadAIAnalysis(
+    studentId
+){
+
+    const box =
+        document.getElementById(
+            "aiInsight"
+        );
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/students/${encodeURIComponent(studentId)}/ai-analysis`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok
+        ){
+
+            throw new Error(
+                data.message ||
+                "AI analysis failed"
+            );
+
+        }
+
+
+        const weakAreas =
+            Array.isArray(
+                data.weakAreas
+            )
+                ? data.weakAreas
+                : [];
+
+
+        const recommendations =
+            Array.isArray(
+                data.recommendations
+            )
+                ? data.recommendations
+                : [];
+
+
+        box.innerHTML = `
+
+            <div class="alert info">
+
+                <strong>
+                    Risk Level:
+                </strong>
+
+                ${escapeHTML(
+                    data.riskLevel || "Low"
+                )}
+
+            </div>
+
+
+            <div class="alert ${
+                weakAreas.length > 0
+                    ? "danger"
+                    : "success"
+            }">
+
+                <strong>
+                    Weak Areas:
+                </strong>
+
+                ${
+                    weakAreas.length > 0
+                        ? escapeHTML(
+                            weakAreas.join(", ")
+                        )
+                        : "No major weak areas."
+                }
+
+            </div>
+
+
+            <div class="alert">
+
+                <strong>
+                    Recommendations
+                </strong>
+
+                <ul
+                    style="
+                        margin-top:10px;
+                        padding-left:20px;
+                    ">
+
+                    ${
+                        recommendations.map(
+                            item =>
+                                `<li style="margin:6px 0;">
+                                    ${escapeHTML(item)}
+                                </li>`
+                        ).join("")
+                    }
+
+                </ul>
+
+            </div>
+
+        `;
+
+        updateAlertCount(
+            data
+        );
+
+
+    }
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        box.innerHTML = `
+
+            <div class="alert info">
+
+                <strong>
+                    Academic Insight:
+                </strong>
+
+                AI analysis is currently unavailable.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   ALERT COUNT
+===================================================== */
+
+function updateAlertCount(
+    data
+){
+
+    let count = 0;
+
+
+    if(
+        Number(
+            data.attendance || 0
+        ) < 90
+    ){
+
+        count++;
+
+    }
+
+
+    if(
+        Number(
+            data.overall || 0
+        ) < 60
+    ){
+
+        count++;
+
+    }
+
+
+    if(
+        Array.isArray(
+            data.weakAreas
+        )
+    ){
+
+        count +=
+            data.weakAreas.length;
+
+    }
+
+
+    document.getElementById(
+        "alertValue"
+    ).textContent =
+        count;
+
+}
+
+
+/* =====================================================
+   ASSIGNMENT STATUS
+===================================================== */
+
+function assignmentStatus(
+    percentage
+){
+
+    if(
+        percentage < 40
+    ){
+
+        return {
+            text:"Low",
+            className:"status-danger"
+        };
+
+    }
+
+
+    if(
+        percentage < 60
+    ){
+
+        return {
+            text:"Needs Improvement",
+            className:"status-warning"
+        };
+
+    }
+
+
+    return {
+        text:"Good",
+        className:"status-good"
+    };
+
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+function showError(
+    message
+){
+
+    document.getElementById(
+        "errorBox"
+    ).innerHTML = `
+
+        <div class="error-box">
+
+            <strong>
+                ${escapeHTML(
+                    message
+                )}
+            </strong>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    localStorage.removeItem(
+        "loggedInStudentId"
+    );
+
+    localStorage.removeItem(
+        "studentId"
+    );
+
+    localStorage.removeItem(
+        "currentStudentId"
+    );
+
+    localStorage.removeItem(
+        "selectedStudentId"
+    );
+
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        loadStudent();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
+```
